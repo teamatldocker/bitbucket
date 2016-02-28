@@ -45,7 +45,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     # Install atlassian ssl tool
     wget -O /home/${CONTAINER_USER}/SSLPoke.class https://confluence.atlassian.com/kb/files/779355358/SSLPoke.class && \
     # Container user permissions
-    chown -R confluence:confluence /home/${CONTAINER_USER} && \
+    chown -R bitbucket:bitbucket /home/${CONTAINER_USER} && \
     chown -R bitbucket:bitbucket ${BITBUCKET_HOME} && \
     chmod -R u=rwx,g=rwx,o=-rwx ${BITBUCKET_INSTALL} && \
     chown -R bitbucket:bitbucket ${BITBUCKET_INSTALL} && \
