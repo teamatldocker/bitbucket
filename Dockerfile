@@ -39,7 +39,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     mkdir -p /opt && \
     mv /tmp/bitbucket /opt/bitbucket && \
     chown -R bitbucket:bitbucket ${BITBUCKET_HOME} && \
-    chmod -R u=,g=w,o=rwx ${BITBUCKET_INSTALL} && \
+    chmod -R u=rwx,g=rwx,o=-rwx ${BITBUCKET_INSTALL} && \
     chown -R bitbucket:bitbucket ${BITBUCKET_INSTALL} && \
     # Remove obsolete packages
     apk del \
