@@ -1,4 +1,4 @@
-# Dockerized Atlassian bitbucket
+# Dockerized Atlassian Bitbucket
 
 # Make It Short
 
