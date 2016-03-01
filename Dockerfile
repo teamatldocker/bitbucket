@@ -38,6 +38,18 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     mkdir -p ${BITBUCKET_HOME} && \
     mkdir -p /opt && \
     mv /tmp/bitbucket /opt/bitbucket && \
+    # Install database drivers
+    rm -f                                               \
+      ${BITBUCKET_INSTALL}/lib/mysql-connector-java*.jar &&  \
+    wget -O /tmp/mysql-connector-java-${MYSQL_DRIVER_VERSION}.tar.gz                                              \
+      http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-${MYSQL_DRIVER_VERSION}.tar.gz && \
+    tar xzf /tmp/mysql-connector-java-${MYSQL_DRIVER_VERSION}.tar.gz                                              \
+      -C /tmp && \
+    cp /tmp/mysql-connector-java-${MYSQL_DRIVER_VERSION}/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar     \
+      ${BITBUCKET_INSTALL}/lib/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar                                &&  \
+    rm -f ${BITBUCKET_INSTALL}/lib/postgresql-*.jar                                                                &&  \
+    wget -O ${BITBUCKET_INSTALL}/lib/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar                                       \
+      https://jdbc.postgresql.org/download/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar && \
     # Adding letsencrypt-ca to truststore
     wget -O /home/${CONTAINER_USER}/letsencryptauthorityx1.der https://letsencrypt.org/certs/letsencryptauthorityx1.der && \
     keytool -trustcacerts -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit -noprompt -importcert -file /home/${CONTAINER_USER}/letsencryptauthorityx1.der && \
