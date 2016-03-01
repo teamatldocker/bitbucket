@@ -35,7 +35,7 @@ $ docker run -d -p 7990:7990 --name bitbucket blacklabelops/bitbucket
 1. Start Bitbucket.
 1. Manual Bitbucket setup.
 
-Firstly, start the database server for Crowd:
+Firstly, start the database server for Bitbucket:
 
 > Note: Change Password!
 
