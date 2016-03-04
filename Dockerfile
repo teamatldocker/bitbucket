@@ -1,7 +1,7 @@
 FROM blacklabelops/java:openjre8
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
-ARG BITBUCKET_VERSION=4.3.2
+ARG BITBUCKET_VERSION=4.4.1
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
