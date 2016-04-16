@@ -29,7 +29,7 @@ fi
 processBitbucketProxySettings
 
 if [ "$1" = 'bitbucket' ] || [ "${1:0:1}" = '-' ]; then
-  exec ${BITBUCKET_INSTALL}/bin/start-bitbucket.sh -fg
+  exec ${BITBUCKET_INSTALL}/bin/catalina.sh run -fg
 else
   exec "$@"
 fi
