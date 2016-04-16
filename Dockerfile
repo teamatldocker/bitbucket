@@ -59,7 +59,6 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     # Container user permissions
     chown -R bitbucket:bitbucket /home/${CONTAINER_USER} && \
     chown -R bitbucket:bitbucket ${BITBUCKET_HOME} && \
-    chmod -R u=rwx,g=rwx,o=-rwx ${BITBUCKET_INSTALL} && \
     chown -R bitbucket:bitbucket ${BITBUCKET_INSTALL} && \
     # Install Tini Zombie Reaper And Signal Forwarder
     export TINI_VERSION=0.9.0 && \
