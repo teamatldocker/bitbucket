@@ -88,7 +88,8 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
 USER bitbucket
 WORKDIR /var/atlassian/bitbucket
 VOLUME ["/var/atlassian/bitbucket"]
-EXPOSE 7990 7999
+EXPOSE 7990 7990
+EXPOSE 7999 7999
 COPY imagescripts /home/bitbucket
 ENTRYPOINT ["/bin/tini","--","/home/bitbucket/docker-entrypoint.sh"]
 CMD ["bitbucket"]
