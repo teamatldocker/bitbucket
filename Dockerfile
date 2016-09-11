@@ -28,10 +28,10 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
       git \
       perl \
       wget &&  \
-    apk add xmlstarlet --update-cache \
-      --repository \
-      http://dl-3.alpinelinux.org/alpine/edge/testing/ \
-      --allow-untrusted &&  \
+    # Install xmlstarlet
+    export XMLSTARLET_VERSION=1.6.1-r1              &&  \
+    wget --directory-prefix=/tmp https://github.com/menski/alpine-pkg-xmlstarlet/releases/download/${XMLSTARLET_VERSION}/xmlstarlet-${XMLSTARLET_VERSION}.apk && \
+    apk add --allow-untrusted /tmp/xmlstarlet-${XMLSTARLET_VERSION}.apk && \
     wget -O /tmp/bitbucket.tar.gz https://www.atlassian.com/software/stash/downloads/binary/atlassian-bitbucket-${BITBUCKET_VERSION}.tar.gz && \
     tar zxf /tmp/bitbucket.tar.gz -C /tmp && \
     mv /tmp/atlassian-bitbucket-${BITBUCKET_VERSION} /tmp/bitbucket && \
