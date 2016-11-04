@@ -58,7 +58,7 @@ $ docker run -d --name bitbucket \
 
 >  Starts Crowd and links it to the postgresql instances. JDBC URL: jdbc:postgresql://postgres_bitbucket/bitbucketdb
 
-Thirdly, configure your Crowd yourself and fill it with a test license.
+Thirdly, configure your Bitbucket yourself and fill it with a test license.
 
 Point your browser to http://yourdockerhost:7990
 
