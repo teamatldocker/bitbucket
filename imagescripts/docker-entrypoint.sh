@@ -28,6 +28,13 @@ fi
 
 processBitbucketProxySettings
 
+# If there is a 'ssh' directory, copy it to /home/bitbucket/.ssh
+if [ -d /var/atlassian/bitbucket/ssh ]; then
+  mkdir -p /home/bitbucket/.ssh
+  cp -R /var/atlassian/bitbucket/ssh/* /home/bitbucket/.ssh
+  chmod -R 700 /home/bitbucket/.ssh
+fi
+
 if [ "$1" = 'bitbucket' ] || [ "${1:0:1}" = '-' ]; then
   umask 0027
   exec ${BITBUCKET_INSTALL}/bin/catalina.sh run -fg

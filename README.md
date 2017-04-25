@@ -72,6 +72,12 @@ Point your browser to http://yourdockerhost:7990
 1. Create and enter license information
 1. Fill out the rest of the installation procedure.
 
+# SSH Keys
+
+If you need to use SSH Keys to authenticate Bitbucket to other services (eg, replicating to Github), put the entire contents of what you want to have in the .ssh directory in a directory called 'ssh' on your persistant volume.
+
+When the container is started, the contents of that directory will be copied to /home/bitbucket/.ssh, and the permissions will be set to 700.
+
 # Proxy Configuration
 
 You can specify your proxy host and proxy port with the environment variables BITBUCKET_PROXY_NAME and BITBUCKET_PROXY_PORT. The value will be set inside the Atlassian server.xml at startup!
