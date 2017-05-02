@@ -76,7 +76,31 @@ Point your browser to http://yourdockerhost:7990
 
 If you need to use SSH Keys to authenticate Bitbucket to other services (eg, replicating to Github), put the entire contents of what you want to have in the .ssh directory in a directory called 'ssh' on your persistant volume.
 
-When the container is started, the contents of that directory will be copied to /home/bitbucket/.ssh, and the permissions will be set to 700.
+When the container is started, the contents of `/var/atlassian/bitbucket/ssh` directory will be copied to `/home/bitbucket/.ssh`, and the permissions will be set to 700.
+
+Example:
+
+~~~~
+$ docker run -d --name bitbucket \
+    -v your-local-ssh-folder-or-volume:/var/atlassian/bitbucket/ssh \
+    -e "BITBUCKET_PROXY_NAME=myhost.example.com" \
+    -e "BITBUCKET_PROXY_PORT=443" \
+    -e "BITBUCKET_PROXY_SCHEME=https" \
+    blacklabelops/bitbucket
+~~~~
+
+> ssh keys will be copied and are available at runtime.
+
+Alternatively copy the files in your running container and restart the container:
+
+~~~~
+# Creating the folder
+$ docker exec bitbucket mkdir -p /var/atlassian/bitbucket/ssh
+# Copy the keys
+$ docker cp your-local-ssh-folder your-container-name:/var/atlassian/bitbucket/ssh
+# Restart container
+$ docker restart your-container-name
+~~~~
 
 # Proxy Configuration
 
