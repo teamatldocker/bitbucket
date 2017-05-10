@@ -6,19 +6,50 @@
 # If CMD argument is overriden and not 'bitbucket', then the user wants to run
 # his own process.
 
-set -o errexit
+set -e
+
+[[ ${DEBUG} == true ]] && set -x
+
+function updateBitbucketProperties() {
+  local propertyfile=$1
+  local propertyname=$2
+  local propertyvalue=$3
+  set +e
+  grep -q "${propertyname}=" ${propertyfile}
+  if [ $? -eq 0 ]; then
+    set -e
+    sed -i "s/\(${propertyname/./\\.}=\).*\$/\1${propertyvalue}/" ${propertyfile}
+  else
+    set -e
+    echo "${propertyname}=${propertyvalue}" >> ${propertyfile}
+  fi
+}
 
 function processBitbucketProxySettings() {
+  if [ -n "${BITBUCKET_PROXY_NAME}" ] || [ -n "${BITBUCKET_PROXY_PORT}" ] || [ -n "${BITBUCKET_DELAYED_START}" ]; then
+    if [ ! -f ${BITBUCKET_HOME}/bitbucket.properties ]; then
+      touch ${BITBUCKET_HOME}/bitbucket.properties
+    fi
+  fi
+
   if [ -n "${BITBUCKET_PROXY_NAME}" ]; then
-    xmlstarlet ed -P -S -L --insert "//Connector[not(@proxyName)]" --type attr -n proxyName --value "${BITBUCKET_PROXY_NAME}" ${BITBUCKET_INSTALL}/conf/server.xml
+    updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.proxy-name" ${BITBUCKET_PROXY_NAME}
   fi
 
   if [ -n "${BITBUCKET_PROXY_PORT}" ]; then
-    xmlstarlet ed -P -S -L --insert "//Connector[not(@proxyPort)]" --type attr -n proxyPort --value "${BITBUCKET_PROXY_PORT}" ${BITBUCKET_INSTALL}/conf/server.xml
+    updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.proxy-port" ${BITBUCKET_PROXY_PORT}
   fi
 
   if [ -n "${BITBUCKET_PROXY_SCHEME}" ]; then
-    xmlstarlet ed -P -S -L --insert "//Connector[not(@scheme)]" --type attr -n scheme --value "${BITBUCKET_PROXY_SCHEME}" ${BITBUCKET_INSTALL}/conf/server.xml
+    if [ "${BITBUCKET_PROXY_SCHEME}" = 'https' ]; then
+      local secure="true"
+      updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.secure" ${secure}
+      updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.scheme" ${BITBUCKET_PROXY_SCHEME}
+    else
+      local secure="false"
+      updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.secure" ${secure}
+      updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.scheme" ${BITBUCKET_PROXY_SCHEME}
+    fi
   fi
 }
 
@@ -37,7 +68,7 @@ fi
 
 if [ "$1" = 'bitbucket' ] || [ "${1:0:1}" = '-' ]; then
   umask 0027
-  exec ${BITBUCKET_INSTALL}/bin/catalina.sh run -fg
+  exec ${BITBUCKET_INSTALL}/bin/start-bitbucket.sh --no-search -fg
 else
   exec "$@"
 fi

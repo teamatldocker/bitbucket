@@ -1,7 +1,7 @@
 FROM blacklabelops/java:openjre8
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
-ARG BITBUCKET_VERSION=4.14.4
+ARG BITBUCKET_VERSION=5.0.0
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
@@ -25,7 +25,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     apk add --update \
       ca-certificates \
       gzip \
-      ssh \
+      openssh \
       git \
       perl \
       wget &&  \

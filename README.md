@@ -6,7 +6,7 @@
 
 | Product |Version | Tags  | Dockerfile |
 |---------|--------|-------|------------|
-| Bitbucket | 4.14.4 | 4.14.4, latest | [Dockerfile](https://github.com/blacklabelops/bitbucket/blob/master/Dockerfile) |
+| Bitbucket | 5.0.0 | 5.0.0, latest | [Dockerfile](https://github.com/blacklabelops/bitbucket/blob/master/Dockerfile) |
 
 ## Related Images
 
@@ -211,7 +211,7 @@ $ vagrant ssh
 
 # Support
 
-Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](http://support.blacklabelops.com)
+Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://www.hipchat.com/gEorzhvnI)
 
 # References
 
