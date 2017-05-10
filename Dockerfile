@@ -25,6 +25,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     apk add --update \
       ca-certificates \
       gzip \
+      ssh \
       git \
       perl \
       wget &&  \
