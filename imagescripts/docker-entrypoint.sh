@@ -18,7 +18,7 @@ function updateBitbucketProperties() {
   grep -q "${propertyname}=" ${propertyfile}
   if [ $? -eq 0 ]; then
     set -e
-    sed -i "s/\(${propertyname/./\\.}=\).*\$/\1${propertyvalue}/" ${propertyfile}
+    sed -i "s/\(${propertyname/./\\.}=\).*\$/\1\\${propertyvalue}/" ${propertyfile}
   else
     set -e
     echo "${propertyname}=${propertyvalue}" >> ${propertyfile}
@@ -26,10 +26,14 @@ function updateBitbucketProperties() {
 }
 
 function processBitbucketProxySettings() {
-  if [ -n "${BITBUCKET_PROXY_NAME}" ] || [ -n "${BITBUCKET_PROXY_PORT}" ] || [ -n "${BITBUCKET_DELAYED_START}" ]; then
+  if [ -n "${BITBUCKET_CONTEXT_PATH}" ] || [ -n "${BITBUCKET_PROXY_NAME}" ] || [ -n "${BITBUCKET_PROXY_PORT}" ] || [ -n "${BITBUCKET_DELAYED_START}" ]; then
     if [ ! -f ${BITBUCKET_HOME}/bitbucket.properties ]; then
       touch ${BITBUCKET_HOME}/bitbucket.properties
     fi
+  fi
+
+  if [ -n "${BITBUCKET_CONTEXT_PATH}" ]; then
+    updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.context-path" ${BITBUCKET_CONTEXT_PATH}
   fi
 
   if [ -n "${BITBUCKET_PROXY_NAME}" ]; then
