@@ -108,6 +108,8 @@ You can specify your proxy host and proxy port with the environment variables BI
 
 When you use https then you also have to include the environment variable BITBUCKET_PROXY_SCHEME.
 
+You can also specify the context path with BITBUCKET_CONTEXT_PATH.
+
 Example HTTPS:
 
 * Proxy Name: myhost.example.com
@@ -124,7 +126,7 @@ $ docker run -d --name bitbucket \
     blacklabelops/bitbucket
 ~~~~
 
-> Will set the values inside the server.xml in /opt/bitbucket/.../server.xml
+> Will set the values inside the bitbucket.properties in /var/atlassian/bitbucket/bitbucket.properties
 
 # NGINX HTTP Proxy
 
@@ -134,7 +136,8 @@ First start Bitbucket:
 
 ~~~~
 $ docker run -d --name bitbucket \
-    -e "BITBUCKET_PROXY_NAME=192.168.99.100" \
+    -e "BITBUCKET_CONTEXT_PATH=/bitbucket" \
+    -e "BITBUCKET_PROXY_NAME=myhost.example.com" \
     -e "BITBUCKET_PROXY_PORT=80" \
     -e "BITBUCKET_PROXY_SCHEME=http" \
     blacklabelops/bitbucket
@@ -149,12 +152,14 @@ $ docker run -d \
     -p 80:80 \
     --name nginx \
     --link bitbucket:bitbucket \
-    -e "SERVER1REVERSE_PROXY_LOCATION1=/" \
+    -e "SERVER1SERVER_NAME=myhost.example.com" \
+    -e "SERVER1REVERSE_PROXY_LOCATION1=/bitbucket" \
     -e "SERVER1REVERSE_PROXY_PASS1=http://bitbucket:7990" \
+    -e "SERVER1REVERSE_PROXY_APPLICATION1: bitbucket"
     blacklabelops/nginx
 ~~~~
 
-> Bitbucket will be available at http://192.168.99.100.
+> Bitbucket will be available at http://myhost.example.com/bitbucket.
 
 # NGINX HTTPS Proxy
 
