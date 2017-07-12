@@ -18,7 +18,11 @@ function updateBitbucketProperties() {
   grep -q "${propertyname}=" ${propertyfile}
   if [ $? -eq 0 ]; then
     set -e
-    sed -i "s/\(${propertyname/./\\.}=\).*\$/\1\\${propertyvalue}/" ${propertyfile}
+    if [[ $propertyvalue == /* ]]; then
+      sed -i "s/\(${propertyname/./\\.}=\).*\$/\1\\${propertyvalue}/" ${propertyfile}
+    else
+      sed -i "s/\(${propertyname/./\\.}=\).*\$/\1${propertyvalue}/" ${propertyfile}
+    fi
   else
     set -e
     echo "${propertyname}=${propertyvalue}" >> ${propertyfile}
