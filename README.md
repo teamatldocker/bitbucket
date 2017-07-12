@@ -72,6 +72,21 @@ Point your browser to http://yourdockerhost:7990
 1. Create and enter license information
 1. Fill out the rest of the installation procedure.
 
+# Embedded Elasticsearch
+
+If you want to use the Embedded Elasticsearch, override the default command:
+
+Example:
+
+~~~~
+$ docker run -d --name bitbucket \
+    -v your-local-folder-or-volume:/var/atlassian/bitbucket \
+    -p 7990:7990 \
+    blacklabelops/bitbucket /opt/bitbucket/bin/start-bitbucket.sh -fg
+~~~~
+
+> A separate java process for Elasticsearch will be started.
+
 # SSH Keys
 
 If you need to use SSH Keys to authenticate Bitbucket to other services (eg, replicating to Github), put the entire contents of what you want to have in the .ssh directory in a directory called 'ssh' on your persistant volume.
