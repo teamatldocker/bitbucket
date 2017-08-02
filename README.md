@@ -117,6 +117,22 @@ $ docker cp your-local-ssh-folder your-container-name:/var/atlassian/bitbucket/s
 $ docker restart your-container-name
 ~~~~
 
+# JVM memory settings
+
+By default Bitbucket starts with `-Xms=512m -Xmx=1g`. In some cases, this may not be enough to work with.
+
+If needed, you can specify your own memory settings:
+
+~~~~
+$ docker run -d \
+    -e "JVM_MINIMUM_MEMORY=2g" \
+    -e "JVM_MAXIMUM_MEMORY=3g" \
+    -p 7990:7990 \
+    blacklabelops/bitbucket
+~~~~
+
+This will start Bitbucket with `-Xms=2g -Xmx=3g`.
+
 # Proxy Configuration
 
 You can specify your proxy host and proxy port with the environment variables BITBUCKET_PROXY_NAME and BITBUCKET_PROXY_PORT. The value will be set inside the Atlassian server.xml at startup!
