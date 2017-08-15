@@ -1,7 +1,7 @@
 FROM blacklabelops/java:openjre8
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
-ARG BITBUCKET_VERSION=5.2.2
+ARG BITBUCKET_VERSION=5.3.0
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
@@ -13,7 +13,6 @@ ENV BITBUCKET_HOME=/var/atlassian/bitbucket \
     BITBUCKET_PROXY_SCHEME=
 
 RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
-    export POSTGRESQL_DRIVER_VERSION=9.4.1207 && \
     export CONTAINER_USER=bitbucket &&  \
     export CONTAINER_GROUP=bitbucket &&  \
     addgroup -g $CONTAINER_GID $CONTAINER_GROUP &&  \
@@ -48,9 +47,6 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
       -C /tmp && \
     cp /tmp/mysql-connector-java-${MYSQL_DRIVER_VERSION}/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar     \
       ${BITBUCKET_INSTALL}/lib/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar                                &&  \
-    rm -f ${BITBUCKET_INSTALL}/lib/postgresql-*.jar                                                                &&  \
-    wget -O ${BITBUCKET_INSTALL}/lib/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar                                       \
-      https://jdbc.postgresql.org/download/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar && \
     # Adding letsencrypt-ca to truststore
     # Adding letsencrypt-ca to truststore
     export KEYSTORE=$JAVA_HOME/jre/lib/security/cacerts && \
