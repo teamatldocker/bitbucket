@@ -1,4 +1,4 @@
-FROM blacklabelops/java:openjre8
+FROM blacklabelops/java:openjre.8
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
 ARG BITBUCKET_VERSION=5.3.1
@@ -24,6 +24,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     apk add --update \
       ca-certificates \
       gzip \
+      curl \
       openssh \
       git \
       perl \
@@ -48,16 +49,11 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     cp /tmp/mysql-connector-java-${MYSQL_DRIVER_VERSION}/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar     \
       ${BITBUCKET_INSTALL}/lib/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar                                &&  \
     # Adding letsencrypt-ca to truststore
-    # Adding letsencrypt-ca to truststore
     export KEYSTORE=$JAVA_HOME/jre/lib/security/cacerts && \
-    wget -P /tmp/ https://letsencrypt.org/certs/letsencryptauthorityx1.der && \
-    wget -P /tmp/ https://letsencrypt.org/certs/letsencryptauthorityx2.der && \
     wget -P /tmp/ https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.der && \
     wget -P /tmp/ https://letsencrypt.org/certs/lets-encrypt-x2-cross-signed.der && \
     wget -P /tmp/ https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.der && \
     wget -P /tmp/ https://letsencrypt.org/certs/lets-encrypt-x4-cross-signed.der && \
-    keytool -trustcacerts -keystore $KEYSTORE -storepass changeit -noprompt -importcert -alias isrgrootx1 -file /tmp/letsencryptauthorityx1.der && \
-    keytool -trustcacerts -keystore $KEYSTORE -storepass changeit -noprompt -importcert -alias isrgrootx2 -file /tmp/letsencryptauthorityx2.der && \
     keytool -trustcacerts -keystore $KEYSTORE -storepass changeit -noprompt -importcert -alias letsencryptauthorityx1 -file /tmp/lets-encrypt-x1-cross-signed.der && \
     keytool -trustcacerts -keystore $KEYSTORE -storepass changeit -noprompt -importcert -alias letsencryptauthorityx2 -file /tmp/lets-encrypt-x2-cross-signed.der && \
     keytool -trustcacerts -keystore $KEYSTORE -storepass changeit -noprompt -importcert -alias letsencryptauthorityx3 -file /tmp/lets-encrypt-x3-cross-signed.der && \

@@ -1,10 +1,10 @@
-version: '2'
+version: '3'
 
 services:
   bitbucket:
     image: blacklabelops/bitbucket
-    container_name: bitbucket
-    hostname: bitbucket
+    depends_on:
+      - postgres_bitbucket
     networks:
       - bitbucketnet
     volumes:
@@ -16,14 +16,14 @@ services:
       - 'BITBUCKET_PROXY_PORT='
       - 'BITBUCKET_PROXY_SCHEME='
       - 'BITBUCKET_DELAYED_START='
+      - 'DOCKER_WAIT_HOST=postgres_bitbucket'
+      - 'DOCKER_WAIT_PORT=5432'
     labels:
       com.blacklabelops.description: "Atlassian Bitbucket"
       com.blacklabelops.service: "bitbucket"
 
-  postgresql:
+  postgres_bitbucket:
     image: blacklabelops/postgres
-    container_name: postgres_bitbucket
-    hostname: postgres_bitbucket
     networks:
       - bitbucketnet
     volumes:
