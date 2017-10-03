@@ -28,7 +28,8 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
       openssh \
       git \
       perl \
-      wget &&  \
+      wget  \
+      ttf-dejavu && \
     # Install xmlstarlet
     export XMLSTARLET_VERSION=1.6.1-r1              &&  \
     wget --directory-prefix=/tmp https://github.com/menski/alpine-pkg-xmlstarlet/releases/download/${XMLSTARLET_VERSION}/xmlstarlet-${XMLSTARLET_VERSION}.apk && \
