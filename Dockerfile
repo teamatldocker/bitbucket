@@ -1,7 +1,7 @@
 FROM blacklabelops/java:openjre.8
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
-ARG BITBUCKET_VERSION=5.3.1
+ARG BITBUCKET_VERSION=5.4.0
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
@@ -12,7 +12,7 @@ ENV BITBUCKET_HOME=/var/atlassian/bitbucket \
     BITBUCKET_PROXY_PORT= \
     BITBUCKET_PROXY_SCHEME=
 
-RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
+RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
     export CONTAINER_USER=bitbucket &&  \
     export CONTAINER_GROUP=bitbucket &&  \
     addgroup -g $CONTAINER_GID $CONTAINER_GROUP &&  \
@@ -28,7 +28,8 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
       openssh \
       git \
       perl \
-      wget &&  \
+      wget  \
+      ttf-dejavu && \
     # Install xmlstarlet
     export XMLSTARLET_VERSION=1.6.1-r1              &&  \
     wget --directory-prefix=/tmp https://github.com/menski/alpine-pkg-xmlstarlet/releases/download/${XMLSTARLET_VERSION}/xmlstarlet-${XMLSTARLET_VERSION}.apk && \
