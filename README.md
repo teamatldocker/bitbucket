@@ -117,6 +117,63 @@ $ docker cp your-local-ssh-folder your-container-name:/var/atlassian/bitbucket/s
 $ docker restart your-container-name
 ~~~~
 
+# Embedded Backup And Restore Clients
+
+This image has the Atlassian Bitbucket Backup Client included. The homepage can be found [HERE](https://marketplace.atlassian.com/plugins/com.atlassian.stash.backup.client/server/overview).The full documentation can be found [HERE](http://confluence.atlassian.com/display/BitbucketServer/Data+recovery+and+backups).
+
+The client must be either executed inside the running container or inside a container that has the bitbucket
+home directory as an attached volume.
+
+Executing the backup client inside the running container:
+
+~~~~
+$ docker exec bitbucket java -jar /opt/backupclient/bitbucket-backup-client/bitbucket-backup-client.jar --help
+~~~~
+
+> Displays the help page inside the container with name `bitbucket`.
+
+Executing the restore client inside the running container:
+
+~~~~
+$ docker exec bitbucket java -jar /opt/backupclient/bitbucket-backup-client/bitbucket-restore-client.jar --help
+~~~~
+
+> Displays the help page inside the container with name `bitbucket`.
+
+The required parameters can be passed using environment variables:
+
+* `BITBUCKET_HOME`: Bitbucket home directory, should be already set in the running container.
+* `BITBUCKET_BASEURL`: Bitbucket base url.
+* `BITBUCKET_USER`: Bitbucket admin user name.
+* `BITBUCKET_PASSWORD`: Bitbucket admin password.
+
+Example:
+
+~~~~
+$ docker exec -it \
+    -e "BITBUCKET_BASEURL=http://localhost:7990" \
+    -e "BITBUCKET_USER=youradmin" \
+    -e "BITBUCKET_PASSWORD=yourpassword" \
+    bitbucket bash
+$ java -jar ${BITBUCKET_BACKUP_CLIENT}/bitbucket-backup-client.jar
+~~~~
+
+> Executes the backup client.
+
+Running in a separate container:
+
+~~~~
+$ docker run --rm --name bitbucket_backup \
+    -v your-local-bitbucket-folder-or-volume:/var/atlassian/bitbucket \
+    -e "BITBUCKET_BASEURL=http://yourbitbucketserverurl:yourport" \
+    -e "BITBUCKET_USER=youradmin" \
+    -e "BITBUCKET_PASSWORD=yourpassword" \
+    blacklabelops/bitbucket \
+    java -jar /opt/backupclient/bitbucket-backup-client/bitbucket-backup-client.jar
+~~~~
+
+> Executing the backup client in a separate container that has access to bitbucket volume.
+
 # JVM memory settings
 
 By default Bitbucket starts with `-Xms=512m -Xmx=1g`. In some cases, this may not be enough to work with.

@@ -10,7 +10,10 @@ ENV BITBUCKET_HOME=/var/atlassian/bitbucket \
     BITBUCKET_INSTALL=/opt/bitbucket \
     BITBUCKET_PROXY_NAME= \
     BITBUCKET_PROXY_PORT= \
-    BITBUCKET_PROXY_SCHEME=
+    BITBUCKET_PROXY_SCHEME= \
+    BITBUCKET_BACKUP_CLIENT=/opt/backupclient/bitbucket-backup-client \
+    BITBUCKET_BACKUP_CLIENT_HOME=/opt/backupclient \
+    BITBUCKET_BACKUP_CLIENT_VERSION=300300300
 
 RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
     export CONTAINER_USER=bitbucket &&  \
@@ -26,6 +29,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
       gzip \
       curl \
       openssh \
+      util-linux \
       git \
       perl \
       wget  \
@@ -64,15 +68,20 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
     # Container user permissions
     chown -R bitbucket:bitbucket /home/${CONTAINER_USER} && \
     chown -R bitbucket:bitbucket ${BITBUCKET_HOME} && \
-    chown -R bitbucket:bitbucket ${BITBUCKET_INSTALL} && \
-    # Install Tini Zombie Reaper And Signal Forwarder
-    export TINI_VERSION=0.9.0 && \
-    curl -fsSL https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-static -o /bin/tini && \
-    chmod +x /bin/tini && \
-    # Remove obsolete packages
-    apk del \
+    chown -R bitbucket:bitbucket ${BITBUCKET_INSTALL}
+
+RUN mkdir -p ${BITBUCKET_BACKUP_CLIENT_HOME} && \
+    wget -O /tmp/bitbucket-backup-distribution.zip \
+      https://marketplace.atlassian.com/download/plugins/com.atlassian.stash.backup.client/version/${BITBUCKET_BACKUP_CLIENT_VERSION} && \
+    unzip -d ${BITBUCKET_BACKUP_CLIENT_HOME} /tmp/bitbucket-backup-distribution.zip && \
+    mv /opt/backupclient/$(ls /opt/backupclient/) /opt/backupclient/bitbucket-backup-client && \
+    chown -R bitbucket:bitbucket ${BITBUCKET_BACKUP_CLIENT_HOME}
+
+# Remove obsolete packages
+RUN apk del \
       ca-certificates \
       gzip \
+      util-linux \
       wget &&  \
     # Clean caches and tmps
     rm -rf /var/cache/apk/* && \
@@ -87,5 +96,5 @@ EXPOSE 7999 7999
 EXPOSE 7992 7992
 COPY imagescripts/docker-entrypoint.sh /home/bitbucket/
 COPY imagescripts/ps_opt_p_enabled_for_alpine.sh /usr/bin/ps
-ENTRYPOINT ["/bin/tini","--","/home/bitbucket/docker-entrypoint.sh"]
+ENTRYPOINT ["/sbin/tini","--","/home/bitbucket/docker-entrypoint.sh"]
 CMD ["bitbucket"]
