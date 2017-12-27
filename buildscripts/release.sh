@@ -3,4 +3,4 @@
 #------------------
 # CONTAINER VARIABLES
 #------------------
-export BITBUCKET_VERSION=5.6.1
+export BITBUCKET_VERSION=5.6.2
