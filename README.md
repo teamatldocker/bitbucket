@@ -32,8 +32,8 @@ $ docker run -d -p 7990:7990 --name bitbucket blacklabelops/bitbucket
 # Setup
 
 1. Start database server for Bitbucket.
-1. Start Bitbucket.
-1. Manual Bitbucket setup.
+2. Start Bitbucket.
+3. Manual Bitbucket setup.
 
 Firstly, start the database server for Bitbucket:
 
@@ -69,8 +69,8 @@ Point your browser to http://yourdockerhost:7990
   * Database name: `bitbucketdb`
   * Database username: `bitbucketdb`
   * Database password: `jellyfish`
-1. Create and enter license information
-1. Fill out the rest of the installation procedure.
+2. Create and enter license information
+3. Fill out the rest of the installation procedure.
 
 # Embedded Elasticsearch
 
@@ -301,6 +301,27 @@ $ vagrant ssh
 ~~~~
 
 > Bitbucket will be available on http://localhost:8080 on the host machine.
+
+# Bitbucket SSO With Crowd
+
+You enable Single Sign On with Atlassian Crowd. What is crowd?
+
+"Users can come from anywhere: Active Directory, LDAP, Crowd itself, or any mix thereof. Control permissions to all your applications in one place – Atlassian, Subversion, Google Apps, or your own apps." - [Atlassian Crowd](https://www.atlassian.com/software/crowd/overview)
+
+This is controlled by the environment variable `BITBUCKET_CROWD_SSO`. Possible values:
+
+* `true`: Bitbucket configuration will be set to Crowd SSO authentication class at every restart.
+* `false`: Bitbucket configuration will be set to Bitbucket Authentication class at every restart.
+
+Example:
+
+~~~~
+$ docker run -d -p 7990:7990 -v your-local-folder-or-volume:/var/atlassian/bitbucket \
+    -e "BITBUCKET_CROWD_SSO=true" \
+    --name bitbucket blacklabelops/bitbucket
+~~~~
+
+ > SSO will be activated, you will need Crowd in order to authenticate.
 
 # Support
 

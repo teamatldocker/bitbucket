@@ -30,7 +30,7 @@ function updateBitbucketProperties() {
 }
 
 function processBitbucketProxySettings() {
-  if [ -n "${BITBUCKET_CONTEXT_PATH}" ] || [ -n "${BITBUCKET_PROXY_NAME}" ] || [ -n "${BITBUCKET_PROXY_PORT}" ] || [ -n "${BITBUCKET_DELAYED_START}" ]; then
+  if [ -n "${BITBUCKET_CONTEXT_PATH}" ] || [ -n "${BITBUCKET_PROXY_NAME}" ] || [ -n "${BITBUCKET_PROXY_PORT}" ] || [ -n "${BITBUCKET_DELAYED_START}" ] || [ -n "${BITBUCKET_CROWD_SSO}" ] ; then
     if [ ! -f ${BITBUCKET_HOME}/bitbucket.properties ]; then
       touch ${BITBUCKET_HOME}/bitbucket.properties
     fi
@@ -58,6 +58,10 @@ function processBitbucketProxySettings() {
       updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.secure" ${secure}
       updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.scheme" ${BITBUCKET_PROXY_SCHEME}
     fi
+  fi
+
+  if [ -n "${BITBUCKET_CROWD_SSO}" ] ; then
+    updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "plugin.auth-crowd.sso.enabled" ${BITBUCKET_CROWD_SSO}
   fi
 }
 
