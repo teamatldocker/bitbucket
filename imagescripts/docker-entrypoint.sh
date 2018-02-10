@@ -10,6 +10,12 @@ set -e
 
 [[ ${DEBUG} == true ]] && set -x
 
+bitbucket_embedded_search="false"
+
+if [ -n "${BITBUCKET_EMBEDDED_SEARCH}" ]; then
+  bitbucket_embedded_search=${BITBUCKET_EMBEDDED_SEARCH}
+fi
+
 function updateBitbucketProperties() {
   local propertyfile=$1
   local propertyname=$2
@@ -79,8 +85,13 @@ if [ -d /var/atlassian/bitbucket/ssh ]; then
 fi
 
 if [ "$1" = 'bitbucket' ] || [ "${1:0:1}" = '-' ]; then
+  source /usr/bin/dockerwait
   umask 0027
-  exec ${BITBUCKET_INSTALL}/bin/start-bitbucket.sh --no-search -fg
+  if [ "${bitbucket_embedded_search}" = 'true' ]; then
+    exec ${BITBUCKET_INSTALL}/bin/start-bitbucket.sh -fg
+  else
+    exec ${BITBUCKET_INSTALL}/bin/start-bitbucket.sh --no-search -fg
+  fi
 else
   exec "$@"
 fi
