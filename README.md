@@ -74,22 +74,65 @@ Point your browser to http://yourdockerhost:7990
 
 # Embedded Elasticsearch
 
-If you want to use the Embedded Elasticsearch, override the default command:
+You need to use the environment variable BITBUCKET_EMBEDDED_SEARCH if you want to use the Embedded Elasticsearch:
 
 Example:
 
 ~~~~
 $ docker run -d --name bitbucket \
     -v your-local-folder-or-volume:/var/atlassian/bitbucket \
+    -e "BITBUCKET_EMBEDDED_SEARCH=true" \
     -p 7990:7990 \
     blacklabelops/bitbucket /opt/bitbucket/bin/start-bitbucket.sh -fg
 ~~~~
 
 > A separate java process for Elasticsearch will be started.
 
+# Database Wait Feature
+
+The bitbucket container can wait for the database container to start up. You have to specify the
+host and port of your database container and Bitbucket will wait up to one minute for the database.
+
+You can define the waiting parameters with the environment variables:
+
+* `DOCKER_WAIT_HOST`: The host to poll. Mandatory!
+* `DOCKER_WAIT_PORT`: The port to poll Mandatory!
+* `DOCKER_WAIT_TIMEOUT`: The timeout in seconds. Optional! Default: 60
+* `DOCKER_WAIT_INTERVAL`: The polling interval in seconds. Optional! Default:5
+
+Example waiting for a postgresql database:
+
+First start the polling container:
+
+~~~~
+$ docker run -d --name bitbucket \
+    -e "DOCKER_WAIT_HOST=your_postgres_host" \
+    -e "DOCKER_WAIT_PORT=5432" \
+    -p 80:8090 blacklabelops/bitbucket
+~~~~
+
+> Waits at most 60 seconds for the database.
+
+Start the database within 60 seconds:
+
+~~~~
+$ docker run --name postgres -d \
+    --network jiranet \
+    -v postgresvolume:/var/lib/postgresql \
+    -e 'POSTGRES_USER=jira' \
+    -e 'POSTGRES_PASSWORD=jellyfish' \
+    -e 'POSTGRES_DB=jiradb' \
+    -e 'POSTGRES_ENCODING=UNICODE' \
+    -e 'POSTGRES_COLLATE=C' \
+    -e 'POSTGRES_COLLATE_TYPE=C' \
+    blacklabelops/postgres
+~~~~
+
+> Bitbucket will start after postgres is available!
+
 # SSH Keys
 
-If you need to use SSH Keys to authenticate Bitbucket to other services (eg, replicating to Github), put the entire contents of what you want to have in the .ssh directory in a directory called 'ssh' on your persistant volume.
+If you need to use SSH Keys to authenticate Bitbucket to other services (eg, replicating to Github), put the entire contents of what you want to have in the .ssh directory in a directory called 'ssh' on your persistent volume.
 
 When the container is started, the contents of `/var/atlassian/bitbucket/ssh` directory will be copied to `/home/bitbucket/.ssh`, and the permissions will be set to 700.
 
