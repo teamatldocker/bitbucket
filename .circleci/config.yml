@@ -28,6 +28,6 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
               docker push blacklabelops/bitbucket
-              docker tag -f blacklabelops/bitbucket:${BITBUCKET_VERSION} blacklabelops/bitbucket:${BITBUCKET_VERSION}
+              docker tag blacklabelops/bitbucket:${BITBUCKET_VERSION} blacklabelops/bitbucket:${BITBUCKET_VERSION}
               docker push blacklabelops/bitbucket:${BITBUCKET_VERSION}
             fi
