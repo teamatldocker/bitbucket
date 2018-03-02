@@ -21,10 +21,10 @@ jobs:
           command: |
             set +o pipefail
             sh buildscripts/release.sh
-            sh docker build -t blacklabelops/bitbucket .
-            sh docker push blacklabelops/bitbucket
-            sh docker tag -f blacklabelops/bitbucket:${BITBUCKET_VERSION} blacklabelops/bitbucket:${BITBUCKET_VERSION}
-            sh docker push blacklabelops/bitbucket:${BITBUCKET_VERSION}
+            docker build -t blacklabelops/bitbucket .
+            docker push blacklabelops/bitbucket
+            docker tag -f blacklabelops/bitbucket:${BITBUCKET_VERSION} blacklabelops/bitbucket:${BITBUCKET_VERSION}
+            docker push blacklabelops/bitbucket:${BITBUCKET_VERSION}
       - run:
           name: Release Docker Images
           command: |
