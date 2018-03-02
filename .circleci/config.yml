@@ -26,6 +26,7 @@ jobs:
           name: Release Docker Images
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              sh buildscripts/release.sh
               docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
               docker push blacklabelops/bitbucket
               docker tag blacklabelops/bitbucket:${BITBUCKET_VERSION} blacklabelops/bitbucket:${BITBUCKET_VERSION}
