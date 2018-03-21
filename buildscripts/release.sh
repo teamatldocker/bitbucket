@@ -3,7 +3,7 @@
 #------------------
 # CONTAINER VARIABLES
 #------------------
-export BITBUCKET_VERSION=5.8.1
+export BITBUCKET_VERSION=5.8.2
 
 docker build -t blacklabelops/bitbucket .
 docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}

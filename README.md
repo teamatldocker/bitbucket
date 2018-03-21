@@ -10,7 +10,7 @@
 
 | Product |Version | Tags  | Dockerfile |
 |---------|--------|-------|------------|
-| Bitbucket | 5.8.1 | 5.8.1, latest | [Dockerfile](https://github.com/blacklabelops/bitbucket/blob/master/Dockerfile) |
+| Bitbucket | 5.8.2 | 5.8.2, latest | [Dockerfile](https://github.com/blacklabelops/bitbucket/blob/master/Dockerfile) |
 
 ## Support & Feature Requests
 
