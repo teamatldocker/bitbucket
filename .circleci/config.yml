@@ -21,14 +21,3 @@ jobs:
           command: |
             set +o pipefail
             sh buildscripts/release.sh
-            docker build -t blacklabelops/bitbucket .
-      - run:
-          name: Release Docker Images
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-               sh buildscripts/release.sh
-               docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-               docker push blacklabelops/bitbucket
-               docker tag blacklabelops/bitbucket:${BITBUCKET_VERSION} blacklabelops/bitbucket:${BITBUCKET_VERSION}
-               docker push blacklabelops/bitbucket:${BITBUCKET_VERSION}
-            fi
