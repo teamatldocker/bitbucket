@@ -1,7 +1,7 @@
 FROM blacklabelops/java:openjre.8
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
-ARG BITBUCKET_VERSION=5.13.0
+ARG BITBUCKET_VERSION=5.14.1
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
@@ -15,7 +15,7 @@ ENV BITBUCKET_HOME=/var/atlassian/bitbucket \
     BITBUCKET_BACKUP_CLIENT_HOME=/opt/backupclient \
     BITBUCKET_BACKUP_CLIENT_VERSION=300300300
 
-RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
+RUN export MYSQL_DRIVER_VERSION=5.1.47 && \
     export CONTAINER_USER=bitbucket &&  \
     export CONTAINER_GROUP=bitbucket &&  \
     addgroup -g $CONTAINER_GID $CONTAINER_GROUP &&  \
