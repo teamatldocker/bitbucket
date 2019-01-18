@@ -1,9 +1,5 @@
 # Dockerized Atlassian Bitbucket
 
-[![Circle CI](https://circleci.com/gh/blacklabelops/bitbucket.svg?style=shield)](https://circleci.com/gh/blacklabelops/bitbucket)
-[![Open Issues](https://img.shields.io/github/issues/blacklabelops/bitbucket.svg)](https://github.com/blacklabelops/bitbucket/issues) [![Stars on GitHub](https://img.shields.io/github/stars/blacklabelops/bitbucket.svg)](https://github.com/cblacklabelops/bitbucket/stargazers)
-[![Docker Stars](https://img.shields.io/docker/stars/blacklabelops/bitbucket.svg)](https://hub.docker.com/r/blacklabelops/bitbucket/) [![Docker Pulls](https://img.shields.io/docker/pulls/blacklabelops/bitbucket.svg)](https://hub.docker.com/r/blacklabelops/bitbucket/)
-
 "Built for professional teams - Distributed version control system that makes it easy for you to collaborate with your team. The only collaborative Git solution that massively scales." - [[Source](https://www.atlassian.com/software/bitbucket)]
 
 ## Supported tags and respective Dockerfile links
@@ -11,14 +7,6 @@
 | Product |Version | Tags  | Dockerfile |
 |---------|--------|-------|------------|
 | Bitbucket | 5.16.0 | 5.16.0, latest | [Dockerfile](https://github.com/blacklabelops/bitbucket/blob/master/Dockerfile) |
-
-## Support & Feature Requests
-
-Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](http://support.blacklabelops.com)
-
-Maybe no one has ever told you, but munich developers run on beer! If you like my work, share a beer!
-
-[![BeerMe](https://raw.githubusercontent.com/ikkez/Beer-Donation-Button/gh-pages/img/beer_donation_button_single.png)](https://www.paypal.me/donateblacklabelops)
 
 ## Related Images
 
@@ -377,10 +365,6 @@ $ docker run -d -p 7990:7990 -v your-local-folder-or-volume:/var/atlassian/bitbu
 ~~~~
 
  > SSO will be activated, you will need Crowd in order to authenticate.
-
-# Support
-
-Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://www.hipchat.com/gEorzhvnI)
 
 # References
 
