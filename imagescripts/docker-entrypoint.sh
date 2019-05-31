@@ -37,37 +37,42 @@ function updateBitbucketProperties() {
 
 function processBitbucketProxySettings() {
   if [ -n "${BITBUCKET_CONTEXT_PATH}" ] || [ -n "${BITBUCKET_PROXY_NAME}" ] || [ -n "${BITBUCKET_PROXY_PORT}" ] || [ -n "${BITBUCKET_DELAYED_START}" ] || [ -n "${BITBUCKET_CROWD_SSO}" ] ; then
-    if [ ! -f ${BITBUCKET_HOME}/bitbucket.properties ]; then
-      touch ${BITBUCKET_HOME}/bitbucket.properties
+    if [ ! -d ${BITBUCKET_HOME}/shared ]; then
+      mkdir ${BITBUCKET_HOME}/shared
+      chmod 750 ${BITBUCKET_HOME}/shared
+    fi
+
+    if [ ! -f ${BITBUCKET_HOME}/shared/bitbucket.properties ]; then
+      touch ${BITBUCKET_HOME}/shared/bitbucket.properties
     fi
   fi
 
   if [ -n "${BITBUCKET_CONTEXT_PATH}" ]; then
-    updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.context-path" ${BITBUCKET_CONTEXT_PATH}
+    updateBitbucketProperties ${BITBUCKET_HOME}/shared/bitbucket.properties "server.context-path" ${BITBUCKET_CONTEXT_PATH}
   fi
 
   if [ -n "${BITBUCKET_PROXY_NAME}" ]; then
-    updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.proxy-name" ${BITBUCKET_PROXY_NAME}
+    updateBitbucketProperties ${BITBUCKET_HOME}/shared/bitbucket.properties "server.proxy-name" ${BITBUCKET_PROXY_NAME}
   fi
 
   if [ -n "${BITBUCKET_PROXY_PORT}" ]; then
-    updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.proxy-port" ${BITBUCKET_PROXY_PORT}
+    updateBitbucketProperties ${BITBUCKET_HOME}/shared/bitbucket.properties "server.proxy-port" ${BITBUCKET_PROXY_PORT}
   fi
 
   if [ -n "${BITBUCKET_PROXY_SCHEME}" ]; then
     if [ "${BITBUCKET_PROXY_SCHEME}" = 'https' ]; then
       local secure="true"
-      updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.secure" ${secure}
-      updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.scheme" ${BITBUCKET_PROXY_SCHEME}
+      updateBitbucketProperties ${BITBUCKET_HOME}/shared/bitbucket.properties "server.secure" ${secure}
+      updateBitbucketProperties ${BITBUCKET_HOME}/shared/bitbucket.properties "server.scheme" ${BITBUCKET_PROXY_SCHEME}
     else
       local secure="false"
-      updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.secure" ${secure}
-      updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "server.scheme" ${BITBUCKET_PROXY_SCHEME}
+      updateBitbucketProperties ${BITBUCKET_HOME}/shared/bitbucket.properties "server.secure" ${secure}
+      updateBitbucketProperties ${BITBUCKET_HOME}/shared/bitbucket.properties "server.scheme" ${BITBUCKET_PROXY_SCHEME}
     fi
   fi
 
   if [ -n "${BITBUCKET_CROWD_SSO}" ] ; then
-    updateBitbucketProperties ${BITBUCKET_HOME}/bitbucket.properties "plugin.auth-crowd.sso.enabled" ${BITBUCKET_CROWD_SSO}
+    updateBitbucketProperties ${BITBUCKET_HOME}/shared/bitbucket.properties "plugin.auth-crowd.sso.enabled" ${BITBUCKET_CROWD_SSO}
   fi
 }
 
