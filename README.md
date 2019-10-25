@@ -6,7 +6,7 @@
 
 | Product |Version | Tags  | Dockerfile |
 |---------|--------|-------|------------|
-| Bitbucket | 5.16.10 | 5.16.10, latest | [Dockerfile](https://github.com/blacklabelops/bitbucket/blob/master/Dockerfile) |
+| Bitbucket | 6.7.1 | 6.7.1, latest | [Dockerfile](https://github.com/blacklabelops/bitbucket/blob/master/Dockerfile) |
 
 ## Related Images
 
