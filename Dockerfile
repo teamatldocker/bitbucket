@@ -1,7 +1,7 @@
-FROM blacklabelops/java:openjre.8
+FROM adoptopenjdk/openjdk8:alpine
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
-ARG BITBUCKET_VERSION=6.7.1
+ARG BITBUCKET_VERSION=6.8.2
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
@@ -13,18 +13,19 @@ ENV BITBUCKET_HOME=/var/atlassian/bitbucket \
     BITBUCKET_PROXY_SCHEME= \
     BITBUCKET_BACKUP_CLIENT=/opt/backupclient/bitbucket-backup-client \
     BITBUCKET_BACKUP_CLIENT_HOME=/opt/backupclient \
-    BITBUCKET_BACKUP_CLIENT_VERSION=300300300
+    BITBUCKET_BACKUP_CLIENT_VERSION=300600000
 
-RUN export MYSQL_DRIVER_VERSION=5.1.47 && \
+RUN export MYSQL_DRIVER_VERSION=5.1.48 && \
     export CONTAINER_USER=bitbucket &&  \
     export CONTAINER_GROUP=bitbucket &&  \
-    addgroup -g $CONTAINER_GID $CONTAINER_GROUP &&  \
+    addgroup --gid $CONTAINER_GID $CONTAINER_GROUP &&  \
     adduser -u $CONTAINER_UID \
-            -G $CONTAINER_GROUP \
+            -g $CONTAINER_GROUP \
             -h /home/$CONTAINER_USER \
             -s /bin/bash \
             -S $CONTAINER_USER &&  \
     apk add --update \
+      bash \
       ca-certificates \
       gzip \
       curl \
@@ -34,11 +35,9 @@ RUN export MYSQL_DRIVER_VERSION=5.1.47 && \
       perl \
       wget  \
       ttf-dejavu \
-      git-daemon && \
-    # Install xmlstarlet
-    export XMLSTARLET_VERSION=1.6.1-r1              &&  \
-    wget --directory-prefix=/tmp https://github.com/menski/alpine-pkg-xmlstarlet/releases/download/${XMLSTARLET_VERSION}/xmlstarlet-${XMLSTARLET_VERSION}.apk && \
-    apk add --allow-untrusted /tmp/xmlstarlet-${XMLSTARLET_VERSION}.apk && \
+      git-daemon \
+      tini \
+      xmlstarlet && \
     wget -O /tmp/bitbucket.tar.gz https://www.atlassian.com/software/stash/downloads/binary/atlassian-bitbucket-${BITBUCKET_VERSION}.tar.gz && \
     tar zxf /tmp/bitbucket.tar.gz -C /tmp && \
     mv /tmp/atlassian-bitbucket-${BITBUCKET_VERSION} /tmp/bitbucket && \
@@ -97,5 +96,6 @@ EXPOSE 7999 7999
 EXPOSE 7992 7992
 COPY imagescripts/docker-entrypoint.sh /home/bitbucket/
 COPY imagescripts/ps_opt_p_enabled_for_alpine.sh /usr/bin/ps
+COPY imagescripts/dockerwait.sh /usr/bin/dockerwait
 ENTRYPOINT ["/sbin/tini","--","/home/bitbucket/docker-entrypoint.sh"]
 CMD ["bitbucket"]
