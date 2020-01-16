@@ -3,7 +3,7 @@
 #------------------
 # CONTAINER VARIABLES
 #------------------
-export BITBUCKET_VERSION=6.7.1
+export BITBUCKET_VERSION=6.8.2
 
 docker build -t teamatldocker/bitbucket .
 
