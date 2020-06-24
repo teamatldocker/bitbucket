@@ -18,6 +18,7 @@ services:
       - 'BITBUCKET_DELAYED_START='
       - 'DOCKER_WAIT_HOST=postgres_bitbucket'
       - 'DOCKER_WAIT_PORT=5432'
+      - 'BITBUCKET_EMBEDDED_SEARCH=true'
     labels:
       com.teamatldocker.description: "Atlassian Bitbucket"
       com.teamatldocker.service: "bitbucket"
