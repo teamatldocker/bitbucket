@@ -2,7 +2,7 @@ version: '3'
 
 services:
   bitbucket:
-    image: blacklabelops/bitbucket
+    image: teamatldocker/bitbucket
     depends_on:
       - postgres_bitbucket
     networks:
@@ -18,12 +18,13 @@ services:
       - 'BITBUCKET_DELAYED_START='
       - 'DOCKER_WAIT_HOST=postgres_bitbucket'
       - 'DOCKER_WAIT_PORT=5432'
+      - 'BITBUCKET_EMBEDDED_SEARCH=true'
     labels:
-      com.blacklabelops.description: "Atlassian Bitbucket"
-      com.blacklabelops.service: "bitbucket"
+      com.teamatldocker.description: "Atlassian Bitbucket"
+      com.teamatldocker.service: "bitbucket"
 
   postgres_bitbucket:
-    image: blacklabelops/postgres
+    image: postgres:9.5-alpine
     networks:
       - bitbucketnet
     volumes:
@@ -35,8 +36,8 @@ services:
       - 'POSTGRES_DB=bitbucketdb'
       - 'POSTGRES_ENCODING=UTF8'
     labels:
-      com.blacklabelops.description: "PostgreSQL Database Server"
-      com.blacklabelops.service: "postgresql"
+      com.teamatldocker.description: "PostgreSQL Database Server"
+      com.teamatldocker.service: "postgresql"
 
 volumes:
   bitbucketdata:

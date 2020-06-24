@@ -1,7 +1,7 @@
 FROM adoptopenjdk/openjdk8:alpine
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
-ARG BITBUCKET_VERSION=6.8.2
+ARG BITBUCKET_VERSION=7.3.1
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
@@ -72,6 +72,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.48 && \
 
 RUN mkdir -p ${BITBUCKET_BACKUP_CLIENT_HOME} && \
     wget -O /tmp/bitbucket-backup-distribution.zip \
+      --local-encoding=utf-8 \
       https://marketplace.atlassian.com/download/plugins/com.atlassian.stash.backup.client/version/${BITBUCKET_BACKUP_CLIENT_VERSION} && \
     unzip -d ${BITBUCKET_BACKUP_CLIENT_HOME} /tmp/bitbucket-backup-distribution.zip && \
     mv /opt/backupclient/$(ls /opt/backupclient/) /opt/backupclient/bitbucket-backup-client && \
