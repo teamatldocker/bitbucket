@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk8:alpine
+FROM adoptopenjdk/openjdk8:x86_64-alpine-jdk8u282-b08
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
 ARG BITBUCKET_VERSION=7.14.1
