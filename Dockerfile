@@ -1,7 +1,7 @@
 FROM adoptopenjdk/openjdk8:alpine
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
-ARG BITBUCKET_VERSION=7.3.1
+ARG BITBUCKET_VERSION=7.14.1
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
@@ -13,7 +13,7 @@ ENV BITBUCKET_HOME=/var/atlassian/bitbucket \
     BITBUCKET_PROXY_SCHEME= \
     BITBUCKET_BACKUP_CLIENT=/opt/backupclient/bitbucket-backup-client \
     BITBUCKET_BACKUP_CLIENT_HOME=/opt/backupclient \
-    BITBUCKET_BACKUP_CLIENT_VERSION=300600000
+    BITBUCKET_BACKUP_CLIENT_VERSION=300700000
 
 RUN export MYSQL_DRIVER_VERSION=5.1.48 && \
     export CONTAINER_USER=bitbucket &&  \

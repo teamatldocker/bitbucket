@@ -6,7 +6,7 @@
 
 | Product |Version | Tags  | Dockerfile |
 |---------|--------|-------|------------|
-| Bitbucket | 7.3.1 | 7.3.1, latest | [Dockerfile](https://github.com/teamatldocker/bitbucket/blob/master/Dockerfile) |
+| Bitbucket | 7.14.1 | 7.14.1, latest | [Dockerfile](https://github.com/teamatldocker/bitbucket/blob/master/Dockerfile) |
 
 ## Related Images
 
